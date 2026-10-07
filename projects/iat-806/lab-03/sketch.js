@@ -60,12 +60,13 @@ function draw() {
   for (let i = 0; i < xs.length; i++) {
     if (paused[i] === false) {
       // check if the dancer is paused; if not, update its frame index
-      let speed;
+      let speed; // the speed to use for this dancer
       if (boosted) {
         speed = boostSpeed;
       } else {
         speed = speeds[i]; // the robot's speed, index matches the dancer's index
       }
+
       let slowFrame = floor(frameCount / speed);
       frameIndexes[i] = slowFrame % frames.length; // cycle through all 6 frames
     }
@@ -74,7 +75,6 @@ function draw() {
     // draw the dancer based on its current frame index
   }
 
-  // white label: the sound index the next click will play
   fill(255);
   text("click: sounds[" + soundIndex + "]", 20, 440);
 }
