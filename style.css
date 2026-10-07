@@ -4,18 +4,17 @@
    =========================================================== */
 
 :root {
-  --ink: #3d2b1f; /* main text color */
-  --muted: #6b6b76; /* quieter text */
-  --accent: #2f4fd8; /* links and highlights */
-  --paper: #f6efe4; /* content card background (light beige) */
-  --line: #e3d6c4; /* borders */
+  --ink: #ffffff;          /* main text color — white */
+  --muted: rgba(255, 255, 255, 0.65); /* quieter text */
+  --accent: #6fa8ff;       /* links and highlights */
+  --line: rgba(255, 255, 255, 0.2); /* borders */
+  --beige: #f0df9c;        /* light khaki, for the name, h1, and h2 */
+  --beige-dark: #c9a84e;   /* darker yellow, for nav hover */
 
-  --on-bg: #f6efe4; /* text sitting directly on the night sky */
+  --bg-dark: #000000;      /* page background */
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -25,37 +24,23 @@ body {
   font-size: 18px;
   line-height: 1.6;
 
-  /* black night sky; the stars are drawn by starfield.js */
-  background: #000;
+  /* solid black background; the twinkling stars are drawn on the
+     full-page canvas that stars.js adds behind everything */
+  background-color: var(--bg-dark);
 }
 
-/* the star canvas, pinned behind everything */
-#starfield {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh !important; /* beats the sketch canvas rule below */
-  max-width: none;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Keeps everything in a readable column in the middle of the page,
-   set on a solid card so text stays legible over the background */
-header,
-main,
-footer {
-  max-width: 56rem;
+/* Keeps everything in a readable column in the middle of the page */
+header, main, footer {
+  max-width: 68rem;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
 main {
-  background: var(--paper);
+  background: var(--bg-dark);
   padding: 4rem 5rem;
   border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* --- top navigation ---------------------------------------- */
@@ -66,27 +51,28 @@ header {
   align-items: baseline;
   gap: 0.5rem 1.5rem;
   padding: 2rem 0 1.5rem;
-  border-bottom: 1px solid rgba(246, 239, 228, 0.2);
+  border-bottom: 1px solid var(--line);
   margin-bottom: 2.5rem;
 }
 
 header .site-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--on-bg);
+  display: block;
   margin-right: auto;
 }
 
+header .site-name img {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+
 header nav a {
-  color: rgba(246, 239, 228, 0.75);
+  color: var(--beige);
   text-decoration: none;
   margin-left: 1.25rem;
 }
 
-header nav a:hover {
-  color: var(--on-bg);
-}
+header nav a:hover { color: var(--beige-dark); }
 
 /* --- text --------------------------------------------------- */
 
@@ -94,11 +80,13 @@ h1 {
   font-size: 2.1rem;
   line-height: 1.2;
   margin: 0 0 0.5rem;
+  color: var(--beige);
 }
 
 h2 {
   font-size: 1.3rem;
   margin: 2.5rem 0 0.75rem;
+  color: var(--beige);
 }
 
 .tagline {
@@ -107,9 +95,7 @@ h2 {
   margin: 0 0 2rem;
 }
 
-a {
-  color: var(--accent);
-}
+a { color: var(--accent); }
 
 /* --- the list of links on the projects pages ----------------- */
 
@@ -126,9 +112,7 @@ a {
   transition: border-color 0.15s ease;
 }
 
-.card-list li:hover {
-  border-color: var(--accent);
-}
+.card-list li:hover { border-color: var(--accent); }
 
 .card-list a {
   display: block;
@@ -158,25 +142,18 @@ a {
   font-size: 0.95rem;
 }
 
-.back:hover {
-  color: var(--accent);
-}
+.back:hover { color: var(--accent); }
 
-canvas {
-  max-width: 100%;
-  height: auto !important;
-}
+canvas { max-width: 100%; height: auto !important; }
+
+#sketch-holder { display: flex; justify-content: center; }
 
 /* --- footer -------------------------------------------------- */
 
-/* no box: light text straight on the night sky */
 footer {
-  margin-top: 2rem;
-  padding: 1.25rem 0;
-  color: var(--paper);
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
   font-size: 0.9rem;
-}
-
-footer a {
-  color: var(--paper);
 }

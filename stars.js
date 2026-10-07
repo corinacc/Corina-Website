@@ -26,7 +26,7 @@
   let stars = [];
 
   function makeStars() {
-    const count = Math.round((window.innerWidth * window.innerHeight) / 12000);
+    const count = 30;
     stars = Array.from({ length: count }, () => {
       const homeX = Math.random() * window.innerWidth;
       const homeY = Math.random() * window.innerHeight;
@@ -62,6 +62,19 @@
     mouse.y = -9999;
   });
 
+  // a four-pointed sparkle (✨) — four petals meeting at the center, with
+  // the curve pulled in toward the middle so the sides bow inward
+  function drawSparkle(x, y, r) {
+    ctx.beginPath();
+    ctx.moveTo(x, y - r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.quadraticCurveTo(x, y, x, y + r);
+    ctx.quadraticCurveTo(x, y, x - r, y);
+    ctx.quadraticCurveTo(x, y, x, y - r);
+    ctx.closePath();
+    ctx.fill();
+  }
+
   let t = 0;
   function tick() {
     t += 1;
@@ -90,9 +103,7 @@
       ctx.shadowColor = `rgba(255, 240, 150, ${alpha})`;
       ctx.shadowBlur = 6 + twinkle * 16;
       ctx.fillStyle = `rgba(255, 240, 150, ${alpha})`;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r + twinkle * 1.4, 0, Math.PI * 2);
-      ctx.fill();
+      drawSparkle(s.x, s.y, (s.r + twinkle * 1.4) * 2.2);
     }
     ctx.shadowBlur = 0;
 
