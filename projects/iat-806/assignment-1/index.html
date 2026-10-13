@@ -1,49 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assignment 1 — Riddle of the Sphinx — Corina Chen</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assignment 1 — Interactive Sketch — Corina Chen</title>
 
-  <!-- Three folders deep, so three levels up to the stylesheet -->
-  <link rel="stylesheet" href="../../../style.css">
-  <script src="../../../stars.js" defer></script>
+    <!-- Three folders deep, so three levels up to the stylesheet -->
+    <link rel="stylesheet" href="../../../style.css" />
+    <script src="../../../stars.js" defer></script>
 
-  <!-- p5.js, version 2.3.3. Every sketch page needs this line. -->
-  <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+    <!-- Old Roman-style fonts for the game text, from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@400;700&display=swap"
+    />
 
-  <!-- Your code. Keep this line last. -->
-  <script src="sketch.js"></script>
-</head>
-<body>
+    <!-- p5.js, version 2.3.3. Every sketch page needs this line. -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
 
-  <header>
-    <a class="site-name" href="../../../index.html"><img src="../../../images/assets/logo.png" alt="Corina Chen" /></a>
-    <nav>
-      <a href="../../../index.html">Home</a>
-      <a href="../../index.html">Projects</a>
-    </nav>
-  </header>
+    <!-- Your code. Keep this line last. -->
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="site-name" href="../../../index.html"
+        ><img src="../../../images/assets/logo.png" alt="Corina Chen"
+      /></a>
+      <nav>
+        <a href="../../../index.html">Home</a>
+        <a href="../../index.html">Projects</a>
+      </nav>
+    </header>
 
-  <main>
-    <a class="back" href="../index.html">&larr; IAT 806</a>
+    <main>
+      <a class="back" href="../index.html">&larr; IAT 806</a>
 
-    <h1>Riddle of the Sphinx</h1>
-    <p class="tagline">Assignment 1 &middot; An interactive puzzle in p5.js.</p>
+      <h1>Riddle of the Sphinx</h1>
+      <p class="tagline">
+        Assignment 1 &middot; An interactive puzzle in p5.js.
+      </p>
 
-    <!-- The canvas p5 creates gets placed right here. -->
-    <div id="sketch-holder"></div>
+      <!-- The canvas p5 creates gets placed right here. -->
+      <div id="sketch-holder"></div>
 
-    <h2>Notes</h2>
-    <p>
-      Truth does not reveal itself to the eyes, but to the awakened mind.
-      Pierce the riddle, trace the letters, and let wisdom speak.
-    </p>
-  </main>
+      <h2>Notes</h2>
+      <p>
+        Truth does not reveal itself to the eyes, but to the awakened mind.
+        Pierce the riddle, trace the letters, and let wisdom speak.
+      </p>
 
-  <footer>
-    <p><a href="../index.html">&larr; Back to IAT 806</a></p>
-  </footer>
+      <h3>How to play</h3>
+      <ol>
+        <li><strong>Click the start screen</strong> to begin.</li>
+        <li>Read the riddle and think of the answer. It is one word.</li>
+        <li>
+          <strong>Click the letters</strong> that spell the answer. A letter
+          lights up when you click it. Click it again to turn it off.
+        </li>
+        <li>
+          Light up <strong>only</strong> the letters of the answer. If a wrong
+          letter is lit, the riddle won&rsquo;t be solved until you turn it off.
+        </li>
+        <li>Hope you can survive!</li>
+        <li>Press <strong>R</strong> to shuffle the letters and play again.</li>
+      </ol>
+    </main>
 
-</body>
+    <footer>
+      <p><a href="../index.html">&larr; Back to IAT 806</a></p>
+    </footer>
+  </body>
 </html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 04 — The Dance Floor — Corina Chen</title>
+
+    <!-- Three folders deep, so three levels up to the stylesheet -->
+    <link rel="stylesheet" href="../../../style.css" />
+    <script src="../../../stars.js" defer></script>
+
+    <!-- p5.js, version 2.3.3. Every sketch page needs this line. -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+
+    <!-- Your code. Keep this line last. -->
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="site-name" href="../../../index.html"><img src="../../../images/assets/logo.png" alt="Corina Chen" /></a>
+      <nav>
+        <a href="../../../index.html">Home</a>
+        <a href="../../index.html">Projects</a>
+      </nav>
+    </header>
+
+    <main>
+      <a class="back" href="../index.html">&larr; IAT 806</a>
+
+      <h1>The Dance Floor</h1>
+      <p class="tagline">
+        Lab 04 &middot; A grid of dancers that react to the mouse in p5.js.
+      </p>
+
+      <!-- The canvas p5 creates gets placed right here. -->
+      <div id="sketch-holder"></div>
+
+      <h2>Notes</h2>
+      <p>Move the mouse across the dance floor and watch the dancers react!</p>
+      <ul>
+        <li>
+          <strong>Move the mouse</strong> left and right &mdash; changes how
+          many columns of dancers are on the floor.
+        </li>
+        <li>
+          Dancers <strong>close to the mouse</strong> dance faster, get
+          bigger, and turn into a dancing piece of bread; dancers far away
+          slow down, shrink, and fade.
+        </li>
+        <li>
+          Everywhere else, the floor is a checkerboard of the dance and the
+          jump.
+        </li>
+      </ul>
+
+      <h3>What I added</h3>
+      <ul>
+        <li>
+          <strong>Speed from the mouse:</strong> each dancer finds the middle
+          of its cell and uses <code>dist()</code> to see how far it is from
+          the mouse. <code>map()</code> turns that distance into a number from
+          0.5 (close) to 3 (far), and the dancer&rsquo;s own random speed is
+          multiplied by it. Close dancers go faster, far ones go slower, and
+          they still don&rsquo;t all move together.
+        </li>
+        <li>
+          <strong>Two dances:</strong> the 4 jump poses are loaded into
+          <code>frames2</code>. Cells where <code>(i + j)</code> is even do the
+          dance and odd cells do the jump, which makes a checkerboard. Both
+          use the same <code>animate()</code> function with a different array.
+        </li>
+        <li>
+          <strong>Bug fix:</strong> <code>getFrameIndex()</code> used to always
+          count with the 8 dance poses, so the 4-pose jump froze after a
+          moment. Now the poses are passed in, so each dance loops through its
+          own number of poses.
+        </li>
+      </ul>
+
+      <h3>Bonus</h3>
+      <ul>
+        <li>
+          <strong>Size:</strong> dancers are 1.5 times the row height next to
+          the mouse and half the row height far away. I finished the TODO in
+          <code>animate()</code>: if only the height is given, the width is
+          worked out with the same scale, so the dancers never get squished.
+          <code>imageMode(CENTER)</code> makes them grow from the middle of
+          their cell.
+        </li>
+        <li>
+          <strong>See-through:</strong> <code>tint()</code> fades the dancers
+          the farther they are from the mouse, from fully solid to almost
+          invisible. <code>noTint()</code> turns it off after each dancer.
+        </li>
+        <li>
+          <strong>A third dance, picked by the mouse:</strong> any dancer less
+          than 150 pixels from the mouse turns into a dancing piece of bread
+          (6 poses). The bread has its own size, from 1.6 times the row height
+          right under the mouse to 0.6 at the edge of the circle.
+        </li>
+      </ul>
+      <p>
+        The git repo:
+        <a href="https://github.com/corinacc/Corina-Website/tree/main/projects/iat-806/lab-04">Lab04</a>
+      </p>
+    </main>
+
+    <footer>
+      <p><a href="../index.html">&larr; Back to IAT 806</a></p>
+    </footer>
+  </body>
+</html>
