@@ -15,6 +15,10 @@ let numRows = 10;
 let colWidth;
 let rowHeight;
 
+// starts mouse far away, so the dancers act like the mouse is not near them
+let mx = -1000;
+let my = -1000;
+
 // 2D arrays: one color and one speed for every cell in the grid
 let colors = [];
 let speeds = [];
@@ -39,6 +43,7 @@ async function setup() {
   }
 
   rowHeight = height / numRows;
+  colWidth = width / numCols;
 
   for (let i = 0; i < numFrames; i++) {
     let fileName = "dance_frames/dance" + i + ".png";
@@ -60,7 +65,10 @@ async function setup() {
 
 function draw() {
   background(120);
-  if (mouseX < width) {
+  // only react when the mouse is inside the canvas width and height
+  if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+    mx = mouseX;
+    my = mouseY;
     numCols = Math.floor(map(mouseX, 0, width, 2, 20));
     // dist the mouse position and the position of the dancing profs
     // in the grid, and then use that number to map to the speed.
@@ -80,11 +88,11 @@ function draw() {
       let y = j * rowHeight + rowHeight / 2;
 
       // add: how far this dancer is from the mouse
-      let d = dist(x, y, mouseX, mouseY);
+      let d = dist(x, y, mx, my);
 
       // add: turn the distance into a number from 0.5 to 3
-      // close to the mouse = 0.5 (small number = fast)
-      // far from the mouse = 3 (big number = slow)
+      // close to the mouse = 0.5: fast
+      // far from the mouse = 3: slow
       let distanceScale = map(d, 0, maxDist, 0.5, 3);
 
       // add: keep each dancer's own random speed, and change it with the distance
@@ -94,7 +102,7 @@ function draw() {
       // add: checkerboard pattern
       // if (i + j) is even, this cell does the dance
       // if (i + j) is odd, this cell does the jump
-      // bonus: if the dancer is close to the mouse (less than 150 away), it turns into the bread
+      // bonus: if the dancer is close to the mouse, it turns into the bread
       // everyone farther away keeps the checkerboard
       let danceFrames;
       if (d < 150) {
@@ -106,12 +114,12 @@ function draw() {
       }
 
       // bonus: turn the distance into a size
-      // close to the mouse = 1.5 (one and a half times as tall as the row)
-      // far from the mouse = 0.5 (half as tall as the row)
+      // close to the mouse = 1.5
+      // far from the mouse = 0.5
       let sizeScale = map(d, 0, maxDist, 1.5, 0.5);
-      // bonus: the bread has its own size, because it only shows up within 150 of the mouse
+      // bonus: the bread only shows up within 150 of the mouse
       // right on the mouse = 1.6
-      // at the edge, 150 away = 1
+      // at the edge, 150 away = 0.6
       if (danceFrames === breadFrames) {
         sizeScale = map(d, 0, 150, 1.6, 0.6);
       }
@@ -120,10 +128,9 @@ function draw() {
 
       // add: use the new speed and the chosen dance instead of frames and speeds[i][j]
       // bonus: draw at the middle of the cell (x, y), and only give the height
-      // the width is null (no width), so animate() works it out to keep the right shape
-      // bonus: turn the distance into how see-through the dancer is
-      // close to the mouse = 255 (not see-through at all)
-      // far from the mouse = 128 (half see-through)
+      // bonus: turn the distance into an alpha value, so the dancers fade out when the mouse is far away
+      // close to the mouse = 255 (fully visible)
+      // far from the mouse = 10 (almost invisible)
       let dancerAlpha = map(d, 0, maxDist, 255, 10);
       tint(255, dancerAlpha);
 
@@ -147,7 +154,7 @@ function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
     imageHeight = scale * origHeight;
   }
 
-  // bonus: the TODO. if only the height is given, work out the width
+  // bonus:if only the height is given, work out the width
   // with the same scale, so the dancer doesn't get squished or stretched
   if (imageHeight && !imageWidth) {
     let scale = imageHeight / origHeight;
@@ -158,8 +165,7 @@ function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
 }
 
 // which pose to show right now. speed = draw-frames per pose: smaller = faster
-// add: frames is now a parameter, so it uses the dance that was passed in
-// (before, it always used the global frames with 8 poses, and the jump with 4 poses froze)
+// add: pass in the frames, so getFrameIndex knows if it has 8 or 4 poses
 function getFrameIndex(frames, speed) {
   let slowFrame = Math.floor(frameCount / speed);
   let index = slowFrame % frames.length;

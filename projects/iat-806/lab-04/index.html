@@ -17,7 +17,9 @@
   </head>
   <body>
     <header>
-      <a class="site-name" href="../../../index.html"><img src="../../../images/assets/logo.png" alt="Corina Chen" /></a>
+      <a class="site-name" href="../../../index.html"
+        ><img src="../../../images/assets/logo.png" alt="Corina Chen"
+      /></a>
       <nav>
         <a href="../../../index.html">Home</a>
         <a href="../../index.html">Projects</a>
@@ -43,65 +45,54 @@
           many columns of dancers are on the floor.
         </li>
         <li>
-          Dancers <strong>close to the mouse</strong> dance faster, get
-          bigger, and turn into a dancing piece of bread; dancers far away
-          slow down, shrink, and fade.
-        </li>
-        <li>
-          Everywhere else, the floor is a checkerboard of the dance and the
-          jump.
+          Dancers <strong>close to the mouse</strong> dance faster, get bigger,
+          and turn into a dancing piece of bread; dancers far away slow down,
+          shrink, and fade.
         </li>
       </ul>
 
       <h3>What I added</h3>
       <ul>
         <li>
-          <strong>Speed from the mouse:</strong> each dancer finds the middle
-          of its cell and uses <code>dist()</code> to see how far it is from
-          the mouse. <code>map()</code> turns that distance into a number from
-          0.5 (close) to 3 (far), and the dancer&rsquo;s own random speed is
-          multiplied by it. Close dancers go faster, far ones go slower, and
-          they still don&rsquo;t all move together.
+          <strong>Speed from the mouse:</strong> <code>dist()</code> measures
+          how far each dancer is from the mouse. <code>map()</code> uses that
+          distance to change the dancer&rsquo;s speed: close dancers go faster,
+          far ones slower.
         </li>
         <li>
-          <strong>Two dances:</strong> the 4 jump poses are loaded into
-          <code>frames2</code>. Cells where <code>(i + j)</code> is even do the
-          dance and odd cells do the jump, which makes a checkerboard. Both
-          use the same <code>animate()</code> function with a different array.
+          <strong>New dancers:</strong> I added a 4-frame jump dancer and a
+          6-frame bread.
         </li>
         <li>
-          <strong>Bug fix:</strong> <code>getFrameIndex()</code> used to always
-          count with the 8 dance poses, so the 4-pose jump froze after a
-          moment. Now the poses are passed in, so each dance loops through its
-          own number of poses.
+          <strong>Bug fix:</strong> <code>getFrameIndex()</code> always used the
+          global 8-pose <code>frames</code>, so I added a <code>frames</code> to
+          <code>getFrameIndex(frames, speed)</code>, so each dancer loops
+          through its own poses. I also check that the mouse is inside the
+          canvas.
         </li>
       </ul>
 
       <h3>Bonus</h3>
       <ul>
         <li>
-          <strong>Size:</strong> dancers are 1.5 times the row height next to
-          the mouse and half the row height far away. I finished the TODO in
-          <code>animate()</code>: if only the height is given, the width is
-          worked out with the same scale, so the dancers never get squished.
-          <code>imageMode(CENTER)</code> makes them grow from the middle of
-          their cell.
+          <strong>Distance for more than speed:</strong> the distance to the
+          mouse sets each dancer&rsquo;s speed, size, and transparency. Close
+          dancers are faster, bigger, and solid; far ones are slower, smaller,
+          and faded.
         </li>
         <li>
-          <strong>See-through:</strong> <code>tint()</code> fades the dancers
-          the farther they are from the mouse, from fully solid to almost
-          invisible. <code>noTint()</code> turns it off after each dancer.
+          <strong>Distance picks the dance:</strong> dancers within 150 pixels
+          of the mouse turn into bread; the rest keep the dance/jump
+          checkerboard.
         </li>
-        <li>
-          <strong>A third dance, picked by the mouse:</strong> any dancer less
-          than 150 pixels from the mouse turns into a dancing piece of bread
-          (6 poses). The bread has its own size, from 1.6 times the row height
-          right under the mouse to 0.6 at the edge of the circle.
-        </li>
+        <li><strong>A third dance:</strong> a 6-frame dancing bread.</li>
       </ul>
       <p>
         The git repo:
-        <a href="https://github.com/corinacc/Corina-Website/tree/main/projects/iat-806/lab-04">Lab04</a>
+        <a
+          href="https://github.com/corinacc/Corina-Website/tree/main/projects/iat-806/lab-04"
+          >Lab04</a
+        >
       </p>
     </main>
 
