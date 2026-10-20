@@ -47,7 +47,6 @@ async function setup() {
   makeBoxes(); // build the first round of letter boxes
 
   song = new Audio("music.mp3");
-  song.loop = false; // play once, don't repeat
 
   bgMusic = new Audio("background.mp3");
   bgMusic.loop = true; // keep repeating

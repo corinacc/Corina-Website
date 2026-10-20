@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Final Storyboard - purified fallancy</title>
+
+    <!-- Three folders deep, so three levels up to the stylesheet -->
+    <link rel="stylesheet" href="../../../style.css" />
+    <!-- starry background behind every page -->
+    <script src="../../../stars.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a class="site-name" href="../../../index.html"
+        ><img src="../../../images/assets/logo.png" alt="Corina Chen"
+      /></a>
+      <nav>
+        <a href="../../../index.html">Home</a>
+        <a href="../../index.html">Projects</a>
+      </nav>
+    </header>
+
+    <main>
+      <a class="back" href="../index.html">&larr; IAT 806</a>
+
+      <h1>AI Purified Fallacy</h1>
+      <p class="tagline">
+        Final storyboard &middot; How AI turns trusted research into a
+        misleading health tip.
+      </p>
+
+      <h2>Research idea</h2>
+      <p>
+        A authoritative study can be quoted correctly but still not support
+        advice for a particular person.
+      </p>
+
+      <h2>Concept</h2>
+      <p>
+        This storyboard shows how AI can give inappropriate or misleading health
+        recommendations, even when the source comes from an authoritative,
+        verified source.
+      </p>
+
+      <h2>Scenario</h2>
+      <p>
+        An older woman asks an AI assistant how much potassium she should have
+        each day.
+      </p>
+      <ol>
+        <li>
+          <strong>The full interaction.</strong> It begins by showing the
+          complete research paper from Harvard Medical School, an authoritative
+          source. The paper explains the benefits of potassium and also details
+          its limitations, the population groups studied, and other contextual
+          variables.
+        </li>
+        <li>
+          <strong>The slider.</strong> As the interactive slider moves from 0%
+          to 100%, contextual details like age, sex, and study limitations
+          slowly fade and disappear, while the core claim&rsquo;s words come
+          together.
+        </li>
+        <li>
+          <strong>The answer.</strong> In the end, the AI turns the research
+          into one universal recommendation with an authoritative &ldquo;Harvard
+          Verified&rdquo; label.
+        </li>
+      </ol>
+
+      <!-- the storyboard, click to open it full size -->
+      <a href="storyboard.png">
+        <img
+          src="storyboard.png"
+          alt="Six-frame storyboard: an older woman asks an AI how much potassium to take, and a slider filters a Harvard research paper from 0% to 100% until only the claim 'Take 2000 mg of potassium daily' remains with a Harvard Verified badge"
+          style="width: 100%; height: auto; border-radius: 8px"
+        />
+      </a>
+
+      <h2>How it will work</h2>
+      <ul>
+        <li>
+          <strong>Split the article into words and number them:</strong> break
+          the text into single words and give each word a number in order (0, 1,
+          2&hellip;), stored in a list. The article has too many words to handle
+          one by one, so I may split it into sentences first and put each
+          sentence in its own &ldquo;room&rdquo;.
+        </li>
+        <li>
+          <strong>Label each word: keep or filter.</strong> Keep words are the
+          ones that will become the final claim. Every other word is a filter
+          word.
+        </li>
+        <li>
+          <strong>Give each word two positions:</strong> at the start, every
+          word sits in its place in the article. At the end, only the keep words
+          move together and line up as one sentence.
+        </li>
+        <li>
+          <strong>Use a percentage to control the filter words:</strong> the
+          slider&rsquo;s percentage controls how many filter words fade and fly
+          away.
+        </li>
+        <li>
+          <strong>Keep words assemble into the claim:</strong> at the same time,
+          each keep word slides from its start position to its end position. The
+          article clears out while the claim forms.
+        </li>
+      </ul>
+
+      <h2>Why it matters</h2>
+      <p>
+        This interaction shows how AI summarizes research into a single claim
+        that may not fit a person&rsquo;s own situation. It highlights why users
+        need to check the context behind trusted sources when they use an AI
+        assistant.
+      </p>
+    </main>
+
+    <footer>
+      <p><a href="../index.html">&larr; Back to IAT 806</a></p>
+    </footer>
+  </body>
+</html>

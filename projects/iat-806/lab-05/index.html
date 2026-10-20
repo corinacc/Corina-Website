@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 05 — Corina Chen</title>
+
+    <!-- Three folders deep, so three levels up to the stylesheet -->
+    <link rel="stylesheet" href="../../../style.css" />
+    <script src="../../../stars.js" defer></script>
+
+    <!-- p5.js, version 2.3.3. Every sketch page needs this line. -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+
+    <!-- Your code. Keep this line last. -->
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="site-name" href="../../../index.html"
+        ><img src="../../../images/assets/logo.png" alt="Corina Chen"
+      /></a>
+      <nav>
+        <a href="../../../index.html">Home</a>
+        <a href="../../index.html">Projects</a>
+      </nav>
+    </header>
+
+    <main>
+      <a class="back" href="../index.html">&larr; IAT 806</a>
+
+      <h1>Lab 05</h1>
+      <p class="tagline">Lab 05 &middot; Crazy ball</p>
+
+      <!-- The canvas p5 creates gets placed right here. -->
+      <div id="sketch-holder"></div>
+
+      <h2>Notes</h2>
+
+      <h3>What I added</h3>
+      <ul>
+        <li>
+          <strong><code>runFromMouse(byHowMuch)</code>:</strong> when the mouse
+          is closer than 80 pixels, the ball is pushed away from it. The push
+          depends on how far the ball is from the mouse，so a ball farther from
+          the center gets pushed harder.
+        </li>
+        <li>
+          <strong><code>glowNearMouse(range)</code>:</strong> when the mouse is
+          closer than <code>range</code> pixels, the ball changes color, and it
+          goes back to its own color when the mouse leaves.
+          <code>this.startColor</code> remembers the color it started with.
+        </li>
+        <li>
+          Both methods live inside the <code>Ball</code> class and are called
+          from <code>change()</code> before <code>show()</code>, so they run for
+          every ball, every frame.
+        </li>
+      </ul>
+
+      <h3>Bonus</h3>
+      <ul>
+        <li>
+          <strong>A new glow color every 10 seconds:</strong> every 600 frames,
+          <code>draw()</code> picks a random <code>glowColor</code>, and all the
+          balls near the mouse use it.
+        </li>
+        <li>
+          <strong>Click to leave a cat:</strong>
+          <code>mousePressed()</code> saves each click in <code>catX</code> and
+          <code>catY</code>. The cats are drawn before the balls, so the balls
+          move over them.
+        </li>
+      </ul>
+
+      <p>
+        The git repo:
+        <a
+          href="https://github.com/corinacc/Corina-Website/tree/main/projects/iat-806/lab-05"
+          >Lab05</a
+        >
+      </p>
+    </main>
+
+    <footer>
+      <p><a href="../index.html">&larr; Back to IAT 806</a></p>
+    </footer>
+  </body>
+</html>

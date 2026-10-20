@@ -26,7 +26,7 @@
   let stars = [];
 
   function makeStars() {
-    const count = 30;
+    const count = 40;
     stars = Array.from({ length: count }, () => {
       const homeX = Math.random() * window.innerWidth;
       const homeY = Math.random() * window.innerHeight;

@@ -38,7 +38,7 @@ header, main, footer {
 }
 
 main {
-  background: var(--bg-dark);
+  background: transparent; /* see-through, so the stars show behind the text */
   padding: 4rem 5rem;
   border-radius: 14px;
 }
