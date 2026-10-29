@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 06 — Corina Chen</title>
+
+    <!-- Three folders deep, so three levels up to the stylesheet -->
+    <link rel="stylesheet" href="../../../style.css" />
+    <script src="../../../stars.js" defer></script>
+
+    <!-- p5.js, version 2.3.3. Every sketch page needs this line. -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+
+    <!-- Your code. Keep these lines last. -->
+    <script src="Ball.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="site-name" href="../../../index.html"
+        ><img src="../../../images/assets/logo.png" alt="Corina Chen"
+      /></a>
+      <nav>
+        <a href="../../../index.html">Home</a>
+        <a href="../../index.html">Projects</a>
+      </nav>
+    </header>
+
+    <main>
+      <a class="back" href="../index.html">BACK</a>
+
+      <h1>Lab 06</h1>
+      <p class="tagline">Lab 06 &middot; Body balls</p>
+
+      <!-- The canvas p5 creates gets placed right here. -->
+      <div id="sketch-holder"></div>
+
+      <h2>Notes</h2>
+
+      <h3>What I did</h3>
+      <ul>
+        <li>
+          <strong>Step 1:</strong> a <code>Ball</code> class. 1500 purple balls
+          shake and change size every frame.
+        </li>
+        <li>
+          <strong>Step 2:</strong> <code>respond(active)</code> turns a ball
+          yellow or random colour with super ball, or back to purple.
+        </li>
+        <li><strong>Step 3:</strong> click a ball and it turns yellow.</li>
+        <li>
+          <strong>Step 4:</strong> ml5.js <code>bodySegmentation</code> finds my
+          body in the webcam. <code>isOnBody()</code> checks the mask under each
+          ball, so balls on my body turn yellow.
+        </li>
+      </ul>
+
+      <h3>Bonus</h3>
+      <ul>
+        <li>
+          <strong>Click and body together:</strong> a ball is active if it was
+          clicked <em>or</em> it is on my body.
+        </li>
+        <li>
+          <strong>Active balls shake harder:</strong> they move and grow 4× more
+          than normal balls.
+        </li>
+        <li>
+          <strong><code>Super Ball</code>:</strong> extends <code>Ball</code>.
+          It starts purple. When it is clicked (active), it flashes random
+          colors and shakes harder.
+        </li>
+      </ul>
+
+      <p>
+        The git repo:
+        <a
+          href="https://github.com/corinacc/Corina-Website/tree/main/projects/iat-806/lab-06"
+          >Lab06</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

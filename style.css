@@ -137,12 +137,24 @@ a { color: var(--accent); }
 .back {
   display: inline-block;
   margin-bottom: 1.5rem;
-  color: var(--muted);
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--beige);
+  border-radius: 999px;
+  background: var(--beige);
+  color: #000;
   text-decoration: none;
   font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.back:hover { color: var(--accent); }
+.back:hover {
+  background: var(--beige-dark);
+  border-color: var(--beige-dark);
+}
+
+footer .back { margin-bottom: 0; }
 
 canvas { max-width: 100%; height: auto !important; }
 
