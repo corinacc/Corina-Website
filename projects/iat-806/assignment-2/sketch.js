@@ -22,24 +22,33 @@ let poses = []; // the people bodyPose found
 let startImg;
 let instructionImg;
 
-// one level per picture:  the match % needed to win,
+// one level per picture: the painting, my own cut-out of the person in it,
+// the time, the match % needed to win, and how many bombs drop
 let levels = [
   {
     name: "van Gogh",
     file: "level1.png",
     maskFile: "level1Mask.png",
     time: 25,
-    win: 85,
+    win: 88,
     bombs: 1,
   },
   {
     name: "Mona Lisa",
     file: "level2.png",
+    maskFile: "level2Mask.png",
     time: 25,
-    win: 88,
+    win: 92,
     bombs: 2,
   },
-  { name: "Ali", file: "level3.png", time: 25, win: 90, bombs: 3 },
+  {
+    name: "Ali",
+    file: "level3.png",
+    maskFile: "level3Mask.png",
+    time: 25,
+    win: 90,
+    bombs: 3,
+  },
 ];
 let level = 0;
 
@@ -54,7 +63,7 @@ let videoX;
 let evilBalls = [];
 let evilDropTime = 6000; // a bomb drops every 6 seconds
 let bombsDropped = 0; // bomb counter
-let evilGap = 100; // bombs only drop within 100px left or right of the middle
+let evilGap = 80; // bombs only drop within 80px left or right of the middle
 let bombPenalty = 5000; // a bomb that hits my nose takes 5 seconds off the timer
 let noseR = 24;
 let bombSound;
@@ -78,7 +87,6 @@ async function setup() {
   for (let lv of levels) {
     lv.img = await loadImage(lv.file);
   }
-  // a fixed 3:4 canvas (450 x 600); every painting is resized to fit it
   const canvas = createCanvas(targetW, targetH);
 
   canvas.parent("sketch-holder");
@@ -88,7 +96,7 @@ async function setup() {
   bgMusic.volume(0.2); // background music is quiet
 
   // ask the webcam for a 4:3 picture
-  // flipped: true mirrors the video
+  // flipped the video
   video = createCapture(
     { audio: false, video: { aspectRatio: 4 / 3 } },
     { flipped: true },
@@ -97,29 +105,21 @@ async function setup() {
   video.hide();
   videoX = (width - video.width) / 2;
 
-  // Wait until the BodySegmentation model is fully loaded.
+  // Wait until BodyPix is loaded. It only cuts me out of the webcam picture now
   bodySegmentation = await ml5.bodySegmentation("BodyPix", options);
 
-  // Find the person in each picture
+  // Load each painting and my own cut-out of the person in it
+  // (person = see-through, background = black, like BodyPix's mask)
   for (let lv of levels) {
     lv.img.resize(targetW, targetH);
-
-    if (lv.maskFile) {
-      // I cut the level1 image out myself:
-      // person is transpaarent, background is black
-      lv.mask = await loadImage(lv.maskFile);
-      lv.mask.resize(targetW, targetH); // same size as the painting
-      lv.mask.loadPixels(); // makeShape reads mask.pixels
-    } else {
-      // cut level2 adn 3 masks out with bodypix.
-      let result = await bodySegmentation.detect(lv.img);
-      lv.mask = result.mask; // cut out done, transparent = person, black = background
-      lv.mask.loadPixels(); // makeShape reads mask.pixels
-    }
+    lv.mask = await loadImage(lv.maskFile);
+    lv.mask.resize(targetW, targetH); // same size as the painting
+    lv.mask.loadPixels(); // makeShape reads mask.pixels
     lv.shape = makeShape(lv.mask);
   }
 
-  bodySegmentation.detectStart(video, gotResults); // cut out the person from the webacam picture.
+  bodySegmentation.detectStart(video, gotResults);
+  // cut out the person from the webacam picture.
   // the segmentation is used by the bubbles to see if they are on my body.
 
   // bodypose for nose, flipped
@@ -180,14 +180,9 @@ function drawRules() {
   text("Don't let the bombs hit your nose!", width / 2, 225);
   text("Reach the match % in 25 seconds:", width / 2, 255);
 
-  // one line per level, read from the levels list: "Level 1: 85%"
-  for (let i = 0; i < levels.length; i++) {
-    text(
-      "Level " + (i + 1) + ": " + levels[i].win + "%",
-      width / 2,
-      290 + i * 28,
-    );
-  }
+  text("Level 1: 88%", width / 2, 290);
+  text("Level 2: 92%", width / 2, 318);
+  text("Level 3: 90%", width / 2, 346);
 
   textSize(16);
   text("Press SPACE to play", width / 2, 460);
@@ -204,21 +199,26 @@ function drawPlaying() {
   // the shape to match, drawn behind the bubbles
   image(lv.shape, 0, 0);
 
+  // check every bubble：color it, and count it for the score
+  let good = 0; // bubbles inside the shape that I cover
+  let bad = 0; // bubbles outside the shape that I cover
+
   // check outside bubble first
   for (let b of bgBubbles) {
     let onBody = segmentation && b.isOnBody(segmentation.mask, videoX);
     b.respond(onBody); // pink if on my body
     b.show();
+    if (onBody) bad++;
   }
 
-  // check insidebubble second
+  // check inside bubble second
   for (let b of bubbles) {
     let onBody = segmentation && b.isOnBody(segmentation.mask, videoX); // on my body
     b.respond(onBody); // pink if on my body
     b.show();
+    if (onBody) good++;
   }
 
-  // my nose: a bomb that hits it takes 5 seconds off
   let nose = getNose();
   if (nose) {
     fill(random(200, 255), random(0, 100), random(0, 100));
@@ -245,7 +245,6 @@ function drawPlaying() {
     if (e.hitsNose(nose, noseR)) {
       bombSound.time(0);
       bombSound.play();
-      // pretend the level started 5 seconds earlier, so 5 seconds less are left
       levelStart -= bombPenalty;
       evilBalls.splice(i, 1);
       continue;
@@ -257,7 +256,10 @@ function drawPlaying() {
     }
   }
 
-  match = lerp(match, getMatch(), 0.1);
+  // how well my body matches the shape, from 0 to 100
+  // going outside the shape (bad) counts 1.5 times as much
+  let score = round((good / (bubbles.length + bad * 1.5)) * 100);
+  match = lerp(match, score, 0.1);
 
   // seconds left in this level
   let timeLeft = max(0, lv.time - floor((millis() - levelStart) / 1000));
@@ -287,7 +289,7 @@ function drawPlaying() {
     }
   } else if (timeLeft <= 0) {
     won = false;
-    bgMusic.stop(); // time's up: stop the music too
+    bgMusic.stop(); // times up: stop the music too
     gameState = "gameOver";
   }
 }
@@ -318,7 +320,7 @@ function drawGameOver() {
   textAlign(CENTER);
   textSize(30);
   if (won) {
-    fill(255, 215, 0); // gold
+    fill(255);
     text("You matched them all!", width / 2, 70);
   } else {
     fill(40);
@@ -383,33 +385,14 @@ function startLevel() {
   gameState = "playing";
 }
 
-// How well my body matches the shape, counted with the bubbles:
-// bubbles inside the shape that I cover are good,
-// bubbles outside the shape that I cover are bad.
-function getMatch() {
-  if (!segmentation) return 0;
-
-  let good = 0; // bubbles in the shape, on my body is good
-  for (let b of bubbles) {
-    if (b.isOnBody(segmentation.mask, videoX)) good++;
-  }
-
-  let bad = 0; // bgbuubles in the shape is bad.
-  for (let b of bgBubbles) {
-    if (b.isOnBody(segmentation.mask, videoX)) bad++;
-  }
-
-  return round((good / (bubbles.length + bad * 1.5)) * 100);
-}
-
-// Turn a mask into a dark grey : body = dark grey, the rest = clear.
+// Turn a mask that body need to fit in into a dark grey
 function makeShape(mask) {
   let shape = createImage(mask.width, mask.height);
   shape.loadPixels();
   for (let i = 0; i < mask.pixels.length; i += 4) {
     let isBody = mask.pixels[i + 3] < 128; // body is see-through in the mask
     if (isBody) {
-      shape.pixels[i] = 40; // red    (0 = dark, 255 = bright)
+      shape.pixels[i] = 40; // red
       shape.pixels[i + 1] = 40; // green
       shape.pixels[i + 2] = 40; // blue
       shape.pixels[i + 3] = 190; // transparency
