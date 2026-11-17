@@ -25,7 +25,6 @@ async function setup() {
     let ball = createRandomBall();
     // call in Ball.js
     balls.push(ball);
-    // make it
   }
 
   // Wait until the BodySegmentation model is fully loaded.
